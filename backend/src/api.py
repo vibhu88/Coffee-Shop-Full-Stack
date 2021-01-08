@@ -94,10 +94,10 @@ responses:
 def create_drink(payload):
     body = request.get_json()
     new_title  = body.get('title')
-    new_recipe = json.dumps(body.get('recipe'))
+    new_recipe = body.get('recipe')
     
     try:
-        drink = Drink(title=new_title, recipe=new_recipe)
+        drink = Drink(title=new_title, recipe=new_recipe if type(new_recipe) == str else json.dumps(new_recipe))
         drink.insert()
 
     except BaseException:
@@ -144,13 +144,13 @@ def update_drink(payload, id):
         abort(404)
 
     new_title  = body.get('title', None)
-    new_recipe = json.dumps(body.get('recipe', None))
+    new_recipe = body.get('recipe', None)
     
     try:
         if new_title:
             drink.title = new_title
         if new_recipe:
-            drink.recipe = new_recipe
+            drink.recipe = new_recipe if type(new_recipe) == str else json.dumps(new_recipe)
         drink.update()
 
     except BaseException:

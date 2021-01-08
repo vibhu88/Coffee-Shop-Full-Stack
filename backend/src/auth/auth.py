@@ -1,3 +1,4 @@
+import os
 import json
 from flask import request, _request_ctx_stack, abort
 from functools import wraps
@@ -5,9 +6,9 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'dev-vu.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffee-shop-backend'
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN', 'dev-vu.us.auth0.com')
+API_AUDIENCE = os.getenv('API_AUDIENCE', 'coffee-shop-backend')
+ALGORITHMS   = os.getenv('ALGORITHMS', ['RS256'])
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
